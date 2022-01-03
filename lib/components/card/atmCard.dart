@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 
 class UserATMCard extends StatefulWidget {
   final String cardNumber, cardHolderName, cardExpiryDate;
-  final gradientColor;
+  final Gradient? gradientColor;
   final double totalAmount;
 
   UserATMCard({

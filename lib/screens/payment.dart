@@ -4,7 +4,7 @@ import 'package:bank_ui_moh_dev/database/databaseHelper.dart';
 import 'package:bank_ui_moh_dev/model/transectionDetails.dart';
 import 'package:flutter/material.dart';
 
-import 'homeScreen.dart';
+import 'home_screen.dart';
 
 class Payment extends StatefulWidget {
   final String customerAvatar,

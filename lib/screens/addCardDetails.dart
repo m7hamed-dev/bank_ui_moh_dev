@@ -8,9 +8,11 @@ import 'package:bank_ui_moh_dev/model/userData.dart';
 import 'package:bank_ui_moh_dev/tools/push.dart';
 import 'package:flutter/material.dart';
 
-import 'homeScreen.dart';
+import 'home_screen.dart';
 
 class AddCardDetails extends StatefulWidget {
+  const AddCardDetails({Key? key}) : super(key: key);
+
   @override
   _AddCardDetailsState createState() => _AddCardDetailsState();
 }
@@ -21,13 +23,13 @@ class _AddCardDetailsState extends State<AddCardDetails> {
   String cardExpiry = '';
   double currentBalance = 0.0;
 
-  DatabaseHelper _dbhelper = DatabaseHelper();
+  final DatabaseHelper _dbhelper = DatabaseHelper();
   int _lastID = 0;
   void _getLastID() {
     if (!mounted) {
       return;
     }
-    _lastID = LocalStorage.getLastCardID();
+    _lastID = LocalStorage.getLastCardID() + 1;
     if (_lastID == 1) {
       _lastID++;
       setState(() {});

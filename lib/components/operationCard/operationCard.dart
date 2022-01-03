@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class OperationCard extends StatefulWidget {
+  const OperationCard(
+      {Key? key,
+      required this.operation,
+      required this.operationIcon,
+      required this.isSelected})
+      : super(key: key);
+
   final String operation, operationIcon;
   final bool isSelected;
-
-  OperationCard({
-   required this.operation,
-   required this.operationIcon,
-   required this.isSelected,
-  });
 
   @override
   _OperationCardState createState() => _OperationCardState();

@@ -15,15 +15,5 @@ PreferredSizeWidget myAppBar(String avatar) {
         size: 35,
       ),
     ),
-    actions: [
-      Padding(
-        padding: const EdgeInsets.only(right: 10.0),
-        // padding: const EdgeInsets.only(right: mgDefaultPadding),
-        child: CircleAvatar(
-          backgroundColor: Colors.blue.shade200,
-          child: Text(avatar),
-        ),
-      ),
-    ],
   );
 }
