@@ -8,4 +8,11 @@ class Push {
     );
     Navigator.push(context, _route);
   }
+
+  static tsoPage(BuildContext context, Widget page) {
+    MaterialPageRoute _route = MaterialPageRoute(
+      builder: (context) => page,
+    );
+    Navigator.push(context, _route);
+  }
 }
