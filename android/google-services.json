@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "815810913368",
+    "project_id": "bankuimohdev",
+    "storage_bucket": "bankuimohdev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:815810913368:android:bd85b6dee44c8c84b4162d",
+        "android_client_info": {
+          "package_name": "com.example.bank_ui_moh_dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "815810913368-grjsrj0acf6fi0giitk63ph2j75078i1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmVbMASUUAeGcBGv0OSNQx_KF_DmLAF_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "815810913368-grjsrj0acf6fi0giitk63ph2j75078i1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
