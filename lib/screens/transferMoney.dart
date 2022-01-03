@@ -37,7 +37,7 @@ class _TransferMoneyState extends State<TransferMoney> {
         title: Text("Transfer Money"),
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             Padding(

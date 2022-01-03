@@ -43,7 +43,7 @@ class _PaymentState extends State<Payment> {
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.black),
       ),
-      body: Column(
+      body: ListView(
         children: [
           Container(
             width: double.infinity,

@@ -1,21 +1,24 @@
+import 'package:bank_ui_moh_dev/database/local_storage.dart';
 import 'package:bank_ui_moh_dev/screens/addCardDetails.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // import 'homeScreen.dart';
 
 class ScreenOnBoarding extends StatelessWidget {
-  const ScreenOnBoarding({required this.prefs, required this.boolKey});
+  const ScreenOnBoarding({Key? key}) : super(key: key);
 
-  final SharedPreferences prefs;
-  final String boolKey;
+
+  // final SharedPreferences prefs;
+  // final String boolKey;
 
   @override
   Widget build(BuildContext context) {
-    prefs.setBool(boolKey, false); // You might want to save this on a callback.
+    // prefs.setBool(boolKey, false);
+    LocalStorage.setFirstTime(false);
+    // You might want to save this on a callback.
 
-    AssetImage assetImage = AssetImage("assets/screen_onboardimg.png");
-    Image image = Image(image: assetImage);
+    // AssetImage assetImage = AssetImage("assets/screen_onboardimg.png");
+    // Image image = Image(image: assetImage);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -26,9 +29,9 @@ class ScreenOnBoarding extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                child: image,
-              ),
+              // Container(
+              //   child: image,
+              // ),
               RichText(
                 text: TextSpan(
                     text: "Money ",

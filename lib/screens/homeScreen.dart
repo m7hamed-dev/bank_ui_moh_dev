@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: mgBgColor,
       appBar: myAppBar(avatar),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -93,18 +93,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             //<<<<<<<<<<< ATM Card Section >>>>>>>>>>>>>>//
             Container(
               height: 199,
+              color: Colors.green,
               child: FutureBuilder<List<UserData>>(
-                initialData: [],
+                initialData: const [],
                 future: _dbhelper.getUserDetails(),
                 builder: (context, snapshot) {
                   return ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     padding:
                         const EdgeInsets.only(left: mgDefaultPadding, right: 6),
                     itemCount: snapshot.data!.length,
