@@ -1,0 +1,3 @@
+class local_storage {
+  
+}
