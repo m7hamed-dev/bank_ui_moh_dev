@@ -1,4 +1,5 @@
 import 'package:bank_ui_moh_dev/database/local_storage.dart';
+import 'package:bank_ui_moh_dev/screens/account/register_page.dart';
 import 'package:bank_ui_moh_dev/screens/screen_onboard.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       // home: isFirstTime ? const ScreenOnBoarding() : const HomeScreen(),
-      home: CrudPage(),
+      home: const RegistrationScreen(),
     );
   }
 }
