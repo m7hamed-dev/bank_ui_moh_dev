@@ -1,21 +1,21 @@
 import 'package:bank_ui_moh_dev/database/local_storage.dart';
 import 'package:bank_ui_moh_dev/screens/screen_onboard.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'providers/current_seleted_info_card.dart';
+import 'screens/crud/crud.dart';
 import 'screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  var prefs = await SharedPreferences.getInstance();
+  await Firebase.initializeApp();
+  //Firebase has not been correctly initialized.
   await LocalStorage.init();
-  var boolKey = 'isFirstTime';
-  // var isFirstTime = prefs.getBool(boolKey) ?? true;
   bool isFirstTime = LocalStorage.isFirstTime();
-
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -41,7 +41,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: isFirstTime ? const ScreenOnBoarding() : const HomeScreen(),
+      // home: isFirstTime ? const ScreenOnBoarding() : const HomeScreen(),
+      home: CrudPage(),
     );
   }
 }
