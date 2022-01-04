@@ -1,6 +1,8 @@
 import 'package:bank_ui_moh_dev/database/local_storage.dart';
-import 'package:bank_ui_moh_dev/screens/addCardDetails.dart';
+// import 'package:bank_ui_moh_dev/screens/add_card_details.dart';
 import 'package:flutter/material.dart';
+
+import 'card_bank/add_card_bank_view.dart';
 
 // import 'homeScreen.dart';
 
@@ -74,7 +76,7 @@ class ScreenOnBoarding extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => AddCardDetails()));
+                            builder: (context) => AddCardBank()));
                   },
                   child: Text(
                     "Get Started Now",

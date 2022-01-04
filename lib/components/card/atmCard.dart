@@ -7,7 +7,7 @@ class UserATMCard extends StatefulWidget {
   final Gradient? gradientColor;
   final double totalAmount;
 
-  UserATMCard({
+  const UserATMCard({
     Key? key,
     required this.cardNumber,
     required this.cardHolderName,
@@ -15,6 +15,7 @@ class UserATMCard extends StatefulWidget {
     required this.cardExpiryDate,
     required this.gradientColor,
   });
+  // final CardATMModel cardATMModel;
 
   @override
   _UserATMCardState createState() => _UserATMCardState();
@@ -28,7 +29,7 @@ class _UserATMCardState extends State<UserATMCard> {
       height: 199,
       width: 344,
       decoration: BoxDecoration(
-          // color: Colors.red,
+          color: Colors.red,
           gradient: widget.gradientColor,
           borderRadius: BorderRadius.all(
             Radius.circular(28),

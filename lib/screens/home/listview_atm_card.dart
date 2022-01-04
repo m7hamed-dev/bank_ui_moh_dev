@@ -4,50 +4,52 @@ import 'package:bank_ui_moh_dev/database/databaseHelper.dart';
 import 'package:bank_ui_moh_dev/model/userData.dart';
 import 'package:bank_ui_moh_dev/providers/current_seleted_info_card.dart';
 import 'package:bank_ui_moh_dev/providers/current_seleted_info_card.dart';
+import 'package:bank_ui_moh_dev/screens/card_bank/add_card_bank_controller.dart';
 import 'package:bank_ui_moh_dev/tools/push.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
-import '../transferMoney.dart';
 
 class ListViewAtmCard extends StatelessWidget {
-  const ListViewAtmCard({Key? key, required this.databaseHelper})
+  const ListViewAtmCard({Key? key})
       : super(key: key);
-  final DatabaseHelper databaseHelper;
   @override
   Widget build(BuildContext context) {
-    final _selectedCard = context.read<CurrentSeletedInfoCardProvider>();
     return Container(
       height: 199,
       color: Colors.green,
-      child: FutureBuilder<List<UserData>>(
-        initialData: const [],
-        future: databaseHelper.getUserDetails(),
-        builder: (context, snapshot) {
+      child: StreamBuilder(
+        stream: CardBankController().getALL(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          //
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
           return ListView.builder(
+            reverse: true,
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.only(left: mgDefaultPadding, right: 6),
-            itemCount: snapshot.data!.length,
+            itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
+              final cards = snapshot.data!.docs;
               return GestureDetector(
                 onTap: () {
-                  _selectedCard.seletedUser(snapshot.data![index]);
-                  Push.toPage(
-                    context,
-                    TransferMoney(
-                      currentBalance: snapshot.data![index].totalAmount,
-                      currentCustomerId: snapshot.data![index].id,
-                      currentUserCardNumebr: snapshot.data![index].cardNumber,
-                      senderName: snapshot.data![index].userName,
-                    ),
-                  );
+                  // Push.toPage(
+                  //   context,
+                  //   TransferMoney(
+                  //     currentBalance: snapshot.data![index].totalAmount,
+                  //     currentCustomerId: snapshot.data![index].id,
+                  //     currentUserCardNumebr: snapshot.data![index].cardNumber,
+                  //     senderName: snapshot.data![index].userName,
+                  //   ),
+                  // );
                 },
                 child: UserATMCard(
-                  // cardHolderName: 'card home mohamed',
-                  cardHolderName: snapshot.data![index].userName,
-                  cardNumber: snapshot.data![index].cardNumber,
-                  cardExpiryDate: snapshot.data![index].cardExpiry,
-                  totalAmount: snapshot.data![index].totalAmount,
+                  cardHolderName: cards[index].get('name'),
+                  cardNumber: cards[index].get('name'),
+                  cardExpiryDate: cards[index].get('name'),
+                  totalAmount: 12.0,
                   gradientColor: null,
                   // gradientColor: _list[index].mgPrimaryGradient,
                 ),

@@ -77,3 +77,7 @@ const List<String> operationIcon = [
 ];
 
 const List<String> cardsIcon = ["assets/mastercard.svg"];
+
+class Constant {
+  static const cardBankCollection = 'cardBankCollection';
+}

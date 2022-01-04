@@ -1,6 +1,7 @@
 import 'package:bank_ui_moh_dev/database/local_storage.dart';
 import 'package:bank_ui_moh_dev/screens/account/register_page.dart';
 import 'package:bank_ui_moh_dev/screens/screen_onboard.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'providers/current_seleted_info_card.dart';
+import 'screens/card_bank/add_card_bank_view.dart';
 import 'screens/crud/crud.dart';
 import 'screens/home_screen.dart';
 
@@ -30,6 +32,8 @@ void main() async {
   ));
 }
 
+final _auth = FirebaseAuth.instance;
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key, required this.isFirstTime}) : super(key: key);
   final bool isFirstTime;
@@ -43,7 +47,10 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       // home: isFirstTime ? const ScreenOnBoarding() : const HomeScreen(),
-      home: const RegistrationScreen(),
+      home: _auth.currentUser == null
+          ? const RegistrationScreen()
+          : const HomeScreen(),
+      // : const ChatScreen(),
     );
   }
 }

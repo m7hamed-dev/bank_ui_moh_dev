@@ -5,11 +5,10 @@ import 'package:bank_ui_moh_dev/constants/data/cardData.dart';
 import 'package:bank_ui_moh_dev/database/databaseHelper.dart';
 import 'package:bank_ui_moh_dev/model/transectionDetails.dart';
 import 'package:bank_ui_moh_dev/screens/home/listview_atm_card.dart';
-import 'package:bank_ui_moh_dev/style/txt_style.dart';
 import 'package:bank_ui_moh_dev/tools/push.dart';
 import 'package:bank_ui_moh_dev/widgets/header_account.dart';
 import 'package:flutter/material.dart';
-import 'addCardDetails.dart';
+import 'card_bank/add_card_bank_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -87,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
               // ),
               const SizedBox(height: 20),
               //<<<<<<<<<<< ATM Card Section >>>>>>>>>>>>>>//
-              ListViewAtmCard(databaseHelper: _dbhelper),
+              const ListViewAtmCard(),
               //<<<<<<<<<<<< Operation section >>>>>>>>>>>>>//
               Padding(
                 padding: const EdgeInsets.only(
@@ -160,6 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
+              ///getTransectionDetatils
               SizedBox(
                 child: FutureBuilder<List<TransectionDetails>>(
                   initialData: const [],
@@ -198,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: mgBlueColor,
         onPressed: () {
-          Push.toPageWithAnimation(context, const AddCardDetails());
+          Push.toPageWithAnimation(context, const AddCardBank());
         },
         child: const Icon(Icons.add),
       ),

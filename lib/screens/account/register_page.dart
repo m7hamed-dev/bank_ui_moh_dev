@@ -16,7 +16,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   late String _email = '';
   late String _password = '';
   final _auth = FirebaseAuth.instance;
-  // final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _msgController = TextEditingController();
   // final TextEditingController _passwordController = TextEditingController();
   bool _isShowLoading = false;
 
@@ -198,6 +198,7 @@ class _ChatScreenState extends State<ChatScreen> {
   late User signInUser;
   FirebaseAuth _auth = FirebaseAuth.instance;
   var _fireStore = FirebaseFirestore.instance;
+  //
   void _getCurrentUser() {
     try {
       final _user = _auth.currentUser;
@@ -238,11 +239,10 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
     _getCurrentUser();
-    _getStreamMessages();
   }
 
-  String _msgTxt = '';
-  List<Text> _txtsWidget = <Text>[];
+  String _msgFiledTxt = '';
+  List<Widget> _txtsWidget = <Widget>[];
   var _msgText = '';
   var _senderMsgText = '';
   Text _msgWidget = const Text('data');
@@ -250,7 +250,6 @@ class _ChatScreenState extends State<ChatScreen> {
   ///
   @override
   Widget build(BuildContext context) {
-    _getStreamMessages();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.yellow[900],
@@ -275,88 +274,106 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                stream: _fireStore.collection('collectionPath').snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                        snapshot) {
-                  //
-                  if (!snapshot.hasData) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  final messgaes = snapshot.data!.docs;
-                  for (var message in messgaes) {
-                    _msgText = message.get('msg');
-                    _senderMsgText = message.get('sender');
-                    _msgWidget = Text(
-                      '$_msgText - $_senderMsgText',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 20.0,
-                      ),
-                    );
-                    _txtsWidget.add(_msgWidget);
-                  }
-                  //
-                  return Column(
-                    children: _txtsWidget,
-                  );
-                },
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                      color: Colors.orange,
-                      width: 2,
-                    ),
-                  ),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        onChanged: (value) {
-                          _msgTxt = value;
-                        },
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 20,
-                          ),
-                          hintText: 'Write your message here...',
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        if (_msgTxt.isNotEmpty) {
-                          _fireStore.collection('msgCollection').add({
-                            'msg': _msgTxt,
-                            'sender': signInUser.email,
-                          });
-                        }
-                      },
-                      child: Text(
-                        'send',
-                        style: TextStyle(
-                          color: Colors.blue[800],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              chatsStreamWidget(),
+              _sendInputWidget(),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  StreamBuilder<QuerySnapshot<Map<String, dynamic>>> chatsStreamWidget() {
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      stream: _streamChat(),
+      builder: (BuildContext context,
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+        //
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        final messgaes = snapshot.data!.docs.reversed;
+        //
+        for (var message in messgaes) {
+          _msgText = message.get('msg');
+          _senderMsgText = message.get('sender');
+          _msgWidget = Text(
+            '$_msgText - $_senderMsgText',
+            style: const TextStyle(
+              color: Colors.blue,
+              fontSize: 20.0,
+            ),
+          );
+          //
+          _txtsWidget.add(
+            Card(
+              elevation: 10.0,
+              child: _msgWidget,
+            ),
+          );
+        }
+        //
+        return Expanded(
+          child: ListView(
+            reverse: true,
+            children: _txtsWidget,
+          ),
+        );
+      },
+    );
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> _streamChat() =>
+      _fireStore.collection('msgCollection').orderBy('time').snapshots();
+
+  _sendInputWidget() {
+    final TextEditingController _msgController = TextEditingController();
+    return Container(
+      decoration: const BoxDecoration(
+        border: Border(
+          top: BorderSide(
+            color: Colors.orange,
+            width: 2,
+          ),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: TextField(
+              controller: _msgController,
+              // onChanged: (value) => _msgFiledTxt = value,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 20,
+                ),
+                hintText: 'Write your message here...',
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+          MyButton(
+            onPressed: () {
+              _msgController.clear();
+              //
+              if (_msgController.text.isNotEmpty) {
+                _fireStore.collection('msgCollection').add({
+                  'msg': _msgFiledTxt,
+                  'sender': signInUser.email,
+                  'time': FieldValue.serverTimestamp(),
+                });
+                _msgController.clear();
+              }
+            },
+            color: Colors.green,
+            title: 'send',
+          )
+        ],
       ),
     );
   }
