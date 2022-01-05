@@ -12,7 +12,7 @@ import 'providers/current_seleted_info_card.dart';
 import 'screens/card_bank/add_card_bank_view.dart';
 import 'screens/crud/crud.dart';
 import 'screens/home_screen.dart';
-import 'screens/transferMoney.dart';
+import 'screens/transfer_money.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

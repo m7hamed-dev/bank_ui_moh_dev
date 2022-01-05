@@ -48,10 +48,10 @@ flutter:
     - assets/
 
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: ubuntu
+      fonts:
+        - asset: assets/fonts/Ubuntu-Bold.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

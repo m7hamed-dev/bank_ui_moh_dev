@@ -80,4 +80,7 @@ const List<String> cardsIcon = ["assets/mastercard.svg"];
 
 class Constant {
   static const cardBankCollection = 'cardBankCollection';
+  static const usersCollection = 'usersCollection';
+  ///
+  static const userImageUrl =  'https://www.niemanlab.org/images/Greg-Emerson-edit-2.jpg';
 }
