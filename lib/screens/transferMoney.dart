@@ -11,12 +11,14 @@ class TransferMoney extends StatefulWidget {
   final int currentCustomerId;
   final String currentUserCardNumebr, senderName;
 
-  TransferMoney({
+  const TransferMoney({
+    Key? key,
     required this.currentBalance,
     required this.currentCustomerId,
-    required this.senderName,
     required this.currentUserCardNumebr,
-  });
+    required this.senderName,
+  }) : super(key: key);
+
   @override
   _TransferMoneyState createState() => _TransferMoneyState();
 }
@@ -52,7 +54,7 @@ class _TransferMoneyState extends State<TransferMoney> {
                             fontWeight: FontWeight.w700,
                           ),
                     ),
-                    SizedBox(height: 10),
+                   const SizedBox(height: 10),
                     Text(
                       _currentBalance == widget.currentBalance
                           ? "₹ 0"
@@ -70,7 +72,6 @@ class _TransferMoneyState extends State<TransferMoney> {
             ),
             Container(
               child: FutureBuilder<List<UserData>>(
-                initialData: [],
                 future: _dbHelper.getUserDetailsList(widget.currentCustomerId),
                 builder: (context, snapshot) {
                   return ListView.builder(

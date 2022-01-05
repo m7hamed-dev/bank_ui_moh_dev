@@ -9,7 +9,6 @@ import 'card_bank/add_card_bank_view.dart';
 class ScreenOnBoarding extends StatelessWidget {
   const ScreenOnBoarding({Key? key}) : super(key: key);
 
-
   // final SharedPreferences prefs;
   // final String boolKey;
 
@@ -76,7 +75,11 @@ class ScreenOnBoarding extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => AddCardBank()));
+                          builder: (context) => const AddCardBank(
+                            isAddNewCard: true,
+                            cardNumber: '',
+                          ),
+                        ));
                   },
                   child: Text(
                     "Get Started Now",

@@ -14,7 +14,7 @@ class CardBankController extends FireBaseMethods {
 
   @override
   Future delete(String id) async {
-    await _fireStore.collection(Constant.cardBankCollection).doc().delete();
+    await _fireStore.collection(Constant.cardBankCollection).doc(id).delete();
   }
 
   @override
@@ -29,6 +29,6 @@ class CardBankController extends FireBaseMethods {
 
   @override
   Future update(String id, Map<String, dynamic> data) async {
-    await _fireStore.collection(Constant.cardBankCollection).doc().set(data);
+    await _fireStore.collection(Constant.cardBankCollection).doc(id).set(data);
   }
 }

@@ -12,6 +12,7 @@ import 'providers/current_seleted_info_card.dart';
 import 'screens/card_bank/add_card_bank_view.dart';
 import 'screens/crud/crud.dart';
 import 'screens/home_screen.dart';
+import 'screens/transferMoney.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,7 +50,12 @@ class MyApp extends StatelessWidget {
       // home: isFirstTime ? const ScreenOnBoarding() : const HomeScreen(),
       home: _auth.currentUser == null
           ? const RegistrationScreen()
-          : const HomeScreen(),
+          : const TransferMoney(
+              currentBalance: 100,
+              currentCustomerId: 1,
+              currentUserCardNumebr: 'currentUserCardNumebr',
+              senderName: 'mohmaed',
+            ),
       // : const ChatScreen(),
     );
   }

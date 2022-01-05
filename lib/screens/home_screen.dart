@@ -1,11 +1,11 @@
 import 'package:bank_ui_moh_dev/components/operationCard/operationCard.dart';
 import 'package:bank_ui_moh_dev/components/transactionHistory/transactionHistory.dart';
 import 'package:bank_ui_moh_dev/constants/constants.dart';
-import 'package:bank_ui_moh_dev/constants/data/cardData.dart';
 import 'package:bank_ui_moh_dev/database/databaseHelper.dart';
 import 'package:bank_ui_moh_dev/model/transectionDetails.dart';
 import 'package:bank_ui_moh_dev/screens/home/listview_atm_card.dart';
 import 'package:bank_ui_moh_dev/tools/push.dart';
+import 'package:bank_ui_moh_dev/widgets/btn.dart';
 import 'package:bank_ui_moh_dev/widgets/header_account.dart';
 import 'package:flutter/material.dart';
 import 'card_bank/add_card_bank_view.dart';
@@ -28,7 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   String greeting = '';
 
-  List<CardData> _list = <CardData>[];
 
   int current = 0;
   List datas = ["Money Transfer", "Bank Withdraw", "Insights Tracking"];
@@ -57,7 +56,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _list = CardData.cardDataList;
     getGreeting();
   }
 
@@ -71,6 +69,18 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              MyButton(
+                color: Colors.black,
+                title: 'update',
+                onPressed: () {
+                  Push.toPageWithAnimation(
+                      context,
+                      const AddCardBank(
+                        isAddNewCard: false,
+                        cardNumber: '',
+                      ));
+                },
+              ),
               const HeaderAccount(),
               const SizedBox(height: 20.0),
               // Padding(
@@ -198,7 +208,12 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: mgBlueColor,
         onPressed: () {
-          Push.toPageWithAnimation(context, const AddCardBank());
+          Push.toPageWithAnimation(
+              context,
+              const AddCardBank(
+                isAddNewCard: true,
+                cardNumber: '',
+              ));
         },
         child: const Icon(Icons.add),
       ),
