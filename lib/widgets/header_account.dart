@@ -9,16 +9,36 @@ class HeaderAccount extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Text(
-            greeting,
-            style: TxtStyle.style(fontSize: 15.0),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                greeting,
+                style: TxtStyle.style(fontSize: 12.0, color: Colors.grey),
+              ),
+              Text(
+                'Welcome Back !!',
+                style: TxtStyle.style(fontSize: 22.0),
+              ),
+            ],
           ),
-          Text(
-            'Welcome Back !!',
-            style: TxtStyle.style(fontSize: 22.0),
+          const Spacer(),
+          Container(
+            padding: const EdgeInsets.all(1.0),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+              shape: BoxShape.circle,
+              border: Border.all(width: 0.0),
+            ),
+            child: const CircleAvatar(
+              backgroundColor: Colors.orange,
+              radius: 17.0,
+              backgroundImage: NetworkImage(
+                Constant.userImageUrl,
+              ),
+            ),
           ),
         ],
       ),

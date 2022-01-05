@@ -3,6 +3,7 @@ import 'package:bank_ui_moh_dev/components/transactionHistory/transactionHistory
 import 'package:bank_ui_moh_dev/constants/constants.dart';
 import 'package:bank_ui_moh_dev/database/databaseHelper.dart';
 import 'package:bank_ui_moh_dev/model/transectionDetails.dart';
+import 'package:bank_ui_moh_dev/screens/account/profile_view.dart';
 import 'package:bank_ui_moh_dev/screens/home/listview_atm_card.dart';
 import 'package:bank_ui_moh_dev/style/txt_style.dart';
 import 'package:bank_ui_moh_dev/tools/push.dart';
@@ -33,6 +34,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int current = 0;
   List datas = ["Money Transfer", "Bank Withdraw", "Insights Tracking"];
+  final List pagesName = <String>[
+    'home',
+    'trans',
+    'notifications',
+    'profile',
+  ];
+  final List iconsName = <IconData>[
+    Icons.home,
+    Icons.transform,
+    Icons.notifications,
+    Icons.verified_user,
+  ];
 
   void getGreeting() {
     if (currentTime.hour < 12) {
@@ -61,10 +74,11 @@ class _HomeScreenState extends State<HomeScreen> {
     getGreeting();
   }
 
+  int selectedPageindex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: mgBgColor,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -76,6 +90,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 HeaderAccount(greeting: greeting),
                 const SizedBox(height: 20.0),
                 const CurrentAmount(),
+                const SizedBox(height: 20.0),
+                Text(
+                  'Your Connections',
+                  style: TxtStyle.style(fontSize: 20.0),
+                ),
                 const SizedBox(
                   height: 100,
                   child: UsersView(),
@@ -119,8 +138,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: current == index
-                                    ? mgBlueColor
-                                    : Colors.grey[400],
+                                    ? Colors.grey[700]
+                                    : Colors.grey[300],
                               ),
                             );
                           }),
@@ -154,26 +173,71 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        color: mgBlueColor,
-        elevation: 15,
-        child: Container(height: 50.0),
+      bottomNavigationBar: AnimatedContainer(
+        duration: const Duration(milliseconds: 800),
+        height: 60.0,
+        margin: const EdgeInsets.all(4.0),
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(.03),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: List.generate(
+            4,
+            (index) => GestureDetector(
+              onTap: () => onTap(index),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(
+                    iconsName[index],
+                    color: getColor(index),
+                  ),
+                  Text(
+                    pagesName[index],
+                    style: TxtStyle.style(
+                      color: getColor(index),
+                    ),
+                  ),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 10),
+                    curve: Curves.easeInToLinear,
+                    height: 3,
+                    width: widthUnderLine(index),
+                    color: getColor(index),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: mgBlueColor,
-        onPressed: () {
-          Push.toPageWithAnimation(
-              context,
-              const AddCardBank(
-                isAddNewCard: true,
-                cardNumber: '',
-              ));
-        },
-        child: const Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
+  }
+
+  Future<void> onTap(int index) async {
+    selectedPageindex = index;
+    getColor(index);
+    widthUnderLine(index);
+    setState(() {});
+    if (selectedPageindex == 3) {
+      Push.toPage(context, const ProfileView());
+    }
+  }
+
+  Color getColor(int index) {
+    if (selectedPageindex == index) {
+      return Colors.black;
+    }
+    return Colors.grey;
+  }
+
+  double widthUnderLine(int index) {
+    if (selectedPageindex == index) {
+      return 20.0;
+    }
+    return 5.0;
   }
 }
 

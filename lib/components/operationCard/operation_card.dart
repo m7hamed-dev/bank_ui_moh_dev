@@ -25,7 +25,10 @@ class _OperationCardState extends State<OperationCard> {
       height: 117,
       width: 117,
       decoration: BoxDecoration(
-        color: widget.isSelected ? Colors.black.withOpacity(.02) : Colors.white,
+        borderRadius: BorderRadius.circular(widget.isSelected ? 15.0 : 10.0),
+        color: widget.isSelected
+            ? Colors.black.withOpacity(.20)
+            : Colors.black.withOpacity(.05),
         // boxShadow: [
         //   BoxShadow(
         //     color: Colors.black.withOpacity(.06),
@@ -34,19 +37,28 @@ class _OperationCardState extends State<OperationCard> {
         //     offset: const Offset(0.2, 2.0),
         //   ),
         // ],
-        borderRadius: BorderRadius.circular(widget.isSelected ? 15.0 : 10.0),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(
-            widget.operationIcon,
-            fit: BoxFit.fill,
+          Container(
             height: 60.0,
-            width: 60.0,
-            // color: widget.isSelected ? Colors.white : Colors.blue,
+            // width: 117,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+              image: AssetImage(
+                widget.operationIcon,
+              ),
+            )),
           ),
+          // Image.asset(
+          //   widget.operationIcon,
+          //   fit: BoxFit.fill,
+          //   height: 60.0,
+          //   // width: 60.0,
+          //   // color: widget.isSelected ? Colors.white : Colors.blue,
+          // ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(

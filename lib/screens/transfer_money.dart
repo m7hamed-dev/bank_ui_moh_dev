@@ -1,6 +1,5 @@
-import 'package:bank_ui_moh_dev/constants/constants.dart';
-import 'package:bank_ui_moh_dev/database/databaseHelper.dart';
-import 'package:bank_ui_moh_dev/screens/users/users_view.dart';
+import 'package:bank_ui_moh_dev/style/txt_style.dart';
+import 'package:bank_ui_moh_dev/widgets/btn.dart';
 import 'package:flutter/material.dart';
 
 class TransferMoney extends StatefulWidget {
@@ -21,53 +20,151 @@ class TransferMoney extends StatefulWidget {
 }
 
 class _TransferMoneyState extends State<TransferMoney> {
-  double _currentBalance = 0.0;
-
-  @override
-  void initState() {
-    super.initState();
+  String _value = '\$';
+  //
+  void onNumberClick(int number) {
+    if (_value == '0.0') {
+      _value = '';
+      setState(() {});
+    }
+    _value += '$number';
+    setState(() {});
   }
 
+  void onIconClearClick() {
+    if (_value.isNotEmpty) {
+      // ['a', 'a', 'a', 'b', 'c', 'd']
+      List<String> c = _value.split('');
+      // ['a', 'a', 'a', 'b', 'c']
+      c.removeLast();
+      _value = c.join();
+      setState(() {});
+    } else {
+      _value = '0.0';
+      setState(() {});
+    }
+  }
+
+  void _clearValue() {
+    _value = '0.0';
+    setState(() {});
+  }
+
+  //
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: mgDefaultPadding),
-                child: Container(
-                  width: double.infinity,
-                  child: Column(
-                    children: [
-                      Text(
-                        "Current Balance",
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
-                              fontWeight: FontWeight.w700,
-                            ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        _currentBalance == widget.currentBalance
-                            ? "₹ 0"
-                            : "₹ ${widget.currentBalance}",
-                        style: Theme.of(context).textTheme.headline4!.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: _currentBalance == widget.currentBalance
-                                  ? Colors.red
-                                  : Colors.green,
-                            ),
-                      ),
-                    ],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: const Icon(
+                    Icons.arrow_back_rounded,
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 40.0),
+                Text(
+                  "Current Balance",
+                  style: TxtStyle.style(fontSize: 14.0, color: Colors.grey),
+                ),
+                Text(
+                  '\$ 2000.0',
+                  style: TxtStyle.style(fontSize: 30.0, color: Colors.green),
+                ),
+                const SizedBox(height: 40.0),
+                Center(
+                  child: Text(
+                    _value,
+                    style: TxtStyle.style(fontSize: 30.0),
+                  ),
+                ),
+                // TextFormField(
+                //   textAlign: TextAlign.center,
+                //   keyboardType: TextInputType.number,
+                //   style: TxtStyle.style(fontSize: 40.0),
+                //   decoration: InputDecoration(
+                //     hintText: '\$0.0',
+                //     hintStyle: TxtStyle.style(
+                //       fontSize: 40.0,
+                //       color: Colors.grey,
+                //     ),
+                //     labelStyle: TxtStyle.style(
+                //       fontSize: 40.0,
+                //       color: Colors.grey,
+                //     ),
+                //     border: InputBorder.none,
+                //     focusedBorder: InputBorder.none,
+                //     errorBorder: InputBorder.none,
+                //   ),
+                // ),
+
+                const SizedBox(height: 40.0),
+                _numbers(),
+              ],
+            ),
           ),
         ),
       ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: MyButton(
+          color: Colors.green,
+          title: 'confirm',
+          onPressed: () {},
+        ),
+      ),
+    );
+  }
+
+  GridView _numbers() {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        mainAxisSpacing: 1.0,
+        crossAxisSpacing: 0.0,
+        childAspectRatio: 4 / 2,
+      ),
+      itemCount: 12,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        if (index == 10) {
+          return GestureDetector(
+            onTap: onIconClearClick,
+            child: const Icon(
+              Icons.arrow_back_rounded,
+              color: Colors.grey,
+            ),
+          );
+        }
+        if (index == 11) {
+          return GestureDetector(
+            onTap: _clearValue,
+            child: const Icon(
+              Icons.clear,
+              color: Colors.red,
+            ),
+          );
+        }
+        return GestureDetector(
+          onTap: () => onNumberClick(index),
+          child: Container(
+            margin: const EdgeInsets.all(10.0),
+            alignment: Alignment.center,
+            // color: Colors.blue,
+            child: Text(
+              '$index',
+              style: TxtStyle.style(fontSize: 30.0),
+            ),
+          ),
+        );
+      },
     );
   }
 }

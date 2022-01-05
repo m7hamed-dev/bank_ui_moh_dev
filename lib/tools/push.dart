@@ -8,22 +8,24 @@ class Push {
     Navigator.push(context, _route);
   }
 
-  static toPageWithAnimation(BuildContext context, Widget page) {
-    print('toPageWithAnimation = ');
+  static void toPageWithAnimation(BuildContext context, Widget page) {
     var _route = PageRouteBuilder(
-        transitionDuration: const Duration(milliseconds: 100),
-        transitionsBuilder: (context, animation, animationTime, child) {
-          animation =
-              CurvedAnimation(parent: animation, curve: Curves.easeInOutCubic);
-          return ScaleTransition(
-            scale: animation,
-            alignment: Alignment.bottomCenter,
-            child: child,
-          );
-        },
-        pageBuilder: (context, animation, animationTime) {
-          return page;
-        });
+      transitionDuration: const Duration(milliseconds: 100),
+      transitionsBuilder: (context, animation, animationTime, child) {
+        animation = CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeInOut,
+        );
+        //
+        return ScaleTransition(
+          scale: animation,
+          alignment: Alignment.center,
+          child: child,
+        );
+      },
+      pageBuilder: (context, animation, animationTime) => page,
+    );
+    //
     Navigator.push(context, _route);
   }
 }
