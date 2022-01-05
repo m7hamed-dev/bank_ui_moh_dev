@@ -1,4 +1,4 @@
-import 'package:bank_ui_moh_dev/components/card/atmCard.dart';
+import 'package:bank_ui_moh_dev/components/card/atm_card.dart';
 import 'package:bank_ui_moh_dev/constants/constants.dart';
 import 'package:bank_ui_moh_dev/screens/card_bank/add_card_bank_view.dart';
 import 'package:bank_ui_moh_dev/screens/card_bank/card_bank_controller.dart';

@@ -50,12 +50,13 @@ class MyApp extends StatelessWidget {
       // home: isFirstTime ? const ScreenOnBoarding() : const HomeScreen(),
       home: _auth.currentUser == null
           ? const RegistrationScreen()
-          : const TransferMoney(
-              currentBalance: 100,
-              currentCustomerId: 1,
-              currentUserCardNumebr: 'currentUserCardNumebr',
-              senderName: 'mohmaed',
-            ),
+          // : const TransferMoney(
+          //     currentBalance: 100,
+          //     currentCustomerId: 1,
+          //     currentUserCardNumebr: 'currentUserCardNumebr',
+          //     senderName: 'mohmaed',
+          //   ),
+          : const HomeScreen(),
       // : const ChatScreen(),
     );
   }

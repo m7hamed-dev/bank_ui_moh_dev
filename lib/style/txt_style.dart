@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
 class TxtStyle {
-  static TextStyle style({Color? color}) {
+  static TextStyle style({
+    Color? color,
+    double? fontSize,
+    FontWeight? fontWeight,
+  }) {
     return TextStyle(
       color: color ?? Colors.black,
       fontFamily: 'ubuntu',
-      // fontWeight: FontWeight.w500,
+      fontSize: fontSize,
+      fontWeight: fontWeight ?? FontWeight.bold,
     );
   }
 }

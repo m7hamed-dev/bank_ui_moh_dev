@@ -71,16 +71,19 @@ const mgPrimaryGradient9 = LinearGradient(
 const double mgDefaultPadding = 20.0;
 
 const List<String> operationIcon = [
-  "assets/transfer.svg",
-  "assets/withdraw.svg",
-  "assets/investigate.svg",
+  "assets/images/crediet.png",
+  "assets/images/wallet.png",
+  "assets/images/crediet.png",
 ];
 
-const List<String> cardsIcon = ["assets/mastercard.svg"];
 
 class Constant {
+  // collections
   static const cardBankCollection = 'cardBankCollection';
   static const usersCollection = 'usersCollection';
+  static const operationsCollection = 'operationsCollection';
+
   ///
-  static const userImageUrl =  'https://www.niemanlab.org/images/Greg-Emerson-edit-2.jpg';
+  static const userImageUrl =
+      'https://www.niemanlab.org/images/Greg-Emerson-edit-2.jpg';
 }

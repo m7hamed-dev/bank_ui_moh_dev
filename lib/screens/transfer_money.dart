@@ -64,10 +64,6 @@ class _TransferMoneyState extends State<TransferMoney> {
                   ),
                 ),
               ),
-              Container(
-                height: 100,
-                child: UsersView(),
-              ),
             ],
           ),
         ),

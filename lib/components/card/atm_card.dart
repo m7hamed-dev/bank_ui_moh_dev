@@ -1,6 +1,5 @@
 import 'package:bank_ui_moh_dev/constants/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class UserATMCard extends StatefulWidget {
   final String cardNumber, cardHolderName, cardExpiryDate;
@@ -8,7 +7,6 @@ class UserATMCard extends StatefulWidget {
   final double totalAmount;
 
   const UserATMCard({
-    Key? key,
     required this.cardNumber,
     required this.cardHolderName,
     required this.totalAmount,
@@ -65,8 +63,8 @@ class _UserATMCardState extends State<UserATMCard> {
           Positioned(
             right: 21,
             top: 35,
-            child: SvgPicture.asset(
-              cardsIcon[0],
+            child: Image.asset(
+              '',
               width: 40,
             ),
           ),
