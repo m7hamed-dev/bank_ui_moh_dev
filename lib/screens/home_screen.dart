@@ -1,18 +1,10 @@
-import 'package:bank_ui_moh_dev/components/operationCard/operation_card.dart';
-import 'package:bank_ui_moh_dev/components/transactionHistory/transactionHistory.dart';
 import 'package:bank_ui_moh_dev/constants/constants.dart';
 import 'package:bank_ui_moh_dev/database/databaseHelper.dart';
-import 'package:bank_ui_moh_dev/model/transectionDetails.dart';
 import 'package:bank_ui_moh_dev/screens/account/profile_view.dart';
-import 'package:bank_ui_moh_dev/screens/home/listview_atm_card.dart';
 import 'package:bank_ui_moh_dev/style/txt_style.dart';
-import 'package:bank_ui_moh_dev/tools/push.dart';
-import 'package:bank_ui_moh_dev/widgets/btn.dart';
-import 'package:bank_ui_moh_dev/widgets/header_account.dart';
 import 'package:flutter/material.dart';
-import 'card_bank/add_card_bank_view.dart';
-import 'operation/operation_view.dart';
-import 'users/users_view.dart';
+import 'home/home_content_view.dart';
+import 'notification/notification_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,14 +15,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final DatabaseHelper _dbhelper = DatabaseHelper();
-  DateTime currentTime = DateTime.now();
-  List<String> greetingList = [
-    "Good Morning",
-    "Good AfterNoon",
-    "Good Evening",
-    "Good Night"
-  ];
-  String greeting = '';
 
   int current = 0;
   List datas = ["Money Transfer", "Bank Withdraw", "Insights Tracking"];
@@ -47,129 +31,19 @@ class _HomeScreenState extends State<HomeScreen> {
     Icons.verified_user,
   ];
 
-  void getGreeting() {
-    if (currentTime.hour < 12) {
-      greeting = greetingList[0];
-    } else if (currentTime.hour >= 12 && currentTime.hour < 18) {
-      greeting = greetingList[1];
-    } else if (currentTime.hour >= 18 && currentTime.hour < 20) {
-      greeting = greetingList[2];
-    } else if (currentTime.hour >= 20 && currentTime.hour < 24) {
-      greeting = greetingList[3];
-    }
-  }
-
-  // Handling indicator
-  List<T> map<T>(List list, Function handler) {
-    List<T> result = [];
-    for (var i = 0; i < list.length; i++) {
-      result.add(handler(i, list[i]));
-    }
-    return result;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getGreeting();
-  }
-
-  int selectedPageindex = 0;
+  int _selectedPageIndex = 0;
+  //
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                HeaderAccount(greeting: greeting),
-                const SizedBox(height: 20.0),
-                const CurrentAmount(),
-                const SizedBox(height: 20.0),
-                Text(
-                  'Your Connections',
-                  style: TxtStyle.style(fontSize: 20.0),
-                ),
-                const SizedBox(
-                  height: 100,
-                  child: UsersView(),
-                ),
-                const SizedBox(height: 20.0),
-                Text(
-                  'Transaction Histories',
-                  style: TxtStyle.style(fontSize: 20.0),
-                ),
-                const SizedBox(height: 20.0),
-                const SizedBox(
-                  height: 100,
-                  child: OperationsView(),
-                ),
-                const SizedBox(height: 20),
-                // const ListViewAtmCard(),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: mgDefaultPadding,
-                      bottom: 13,
-                      top: 29,
-                      right: mgDefaultPadding),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Operation",
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle2!
-                              .copyWith(
-                                  fontSize: 18, fontWeight: FontWeight.w700),
-                        ),
-                        Row(
-                          children: map<Widget>(datas, (index, selected) {
-                            return Container(
-                              margin: const EdgeInsets.only(right: 3),
-                              height: 9,
-                              width: 9,
-                              alignment: Alignment.centerLeft,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: current == index
-                                    ? Colors.grey[700]
-                                    : Colors.grey[300],
-                              ),
-                            );
-                          }),
-                        ),
-                      ]),
-                ),
-                SizedBox(
-                  height: 130,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: 3,
-                    padding: const EdgeInsets.only(left: mgDefaultPadding),
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          current = index;
-                          setState(() {});
-                        },
-                        child: OperationCard(
-                          operation: datas[index],
-                          operationIcon: operationIcon[index],
-                          isSelected: current == index,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: PageView.builder(
+            onPageChanged: _onPageChanged,
+            itemCount: _pages.length,
+            itemBuilder: (context, index) => _pages[_selectedPageIndex],
           ),
         ),
       ),
@@ -201,8 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   AnimatedContainer(
-                    duration: const Duration(milliseconds: 10),
-                    curve: Curves.easeInToLinear,
+                    duration: const Duration(milliseconds: 800),
+                    curve: Curves.linear,
                     height: 3,
                     width: widthUnderLine(index),
                     color: getColor(index),
@@ -216,29 +90,38 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void _onPageChanged(int value) {
+    _selectedPageIndex = value;
+    setState(() {});
+  }
+
   Future<void> onTap(int index) async {
-    selectedPageindex = index;
+    _selectedPageIndex = index;
     getColor(index);
     widthUnderLine(index);
     setState(() {});
-    if (selectedPageindex == 3) {
-      Push.toPage(context, const ProfileView());
-    }
   }
 
   Color getColor(int index) {
-    if (selectedPageindex == index) {
+    if (_selectedPageIndex == index) {
       return Colors.black;
     }
     return Colors.grey;
   }
 
   double widthUnderLine(int index) {
-    if (selectedPageindex == index) {
+    if (_selectedPageIndex == index) {
       return 20.0;
     }
     return 5.0;
   }
+
+  final List<Widget> _pages = const [
+    HomeContentView(),
+    NotificationView(),
+    ProfileView(),
+    ProfileView()
+  ];
 }
 
 class CurrentAmount extends StatelessWidget {
@@ -251,7 +134,10 @@ class CurrentAmount extends StatelessWidget {
       children: [
         Text(
           '\$9839.47',
-          style: TxtStyle.style(fontSize: 30.0),
+          style: TxtStyle.style(
+            fontSize: 30.0,
+            color: Colors.green,
+          ),
         ),
         const SizedBox(width: 10.0),
         InkWell(

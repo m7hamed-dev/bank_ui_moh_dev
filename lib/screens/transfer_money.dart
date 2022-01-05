@@ -1,4 +1,6 @@
+import 'package:bank_ui_moh_dev/screens/account/bio_metric_view.dart';
 import 'package:bank_ui_moh_dev/style/txt_style.dart';
+import 'package:bank_ui_moh_dev/tools/push.dart';
 import 'package:bank_ui_moh_dev/widgets/btn.dart';
 import 'package:flutter/material.dart';
 
@@ -48,6 +50,15 @@ class _TransferMoneyState extends State<TransferMoney> {
   void _clearValue() {
     _value = '0.0';
     setState(() {});
+  }
+
+  bool _isConfirm = false;
+  void cofirmBtnClick() {
+    _isConfirm = !_isConfirm;
+    setState(() {});
+    if (_isConfirm) {
+      Push.toPageWithAnimation(context, const BioMetricView());
+    }
   }
 
   //
@@ -114,9 +125,9 @@ class _TransferMoneyState extends State<TransferMoney> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
         child: MyButton(
-          color: Colors.green,
-          title: 'confirm',
-          onPressed: () {},
+          color: _isConfirm ? Colors.green : Colors.grey,
+          title: _isConfirm ? 'confirmed' : 'confirm',
+          onPressed: cofirmBtnClick,
         ),
       ),
     );
@@ -134,8 +145,9 @@ class _TransferMoneyState extends State<TransferMoney> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
+        // clear last number
         if (index == 10) {
-          return GestureDetector(
+          return InkWell(
             onTap: onIconClearClick,
             child: const Icon(
               Icons.arrow_back_rounded,
@@ -143,8 +155,9 @@ class _TransferMoneyState extends State<TransferMoney> {
             ),
           );
         }
+        // clear all
         if (index == 11) {
-          return GestureDetector(
+          return InkWell(
             onTap: _clearValue,
             child: const Icon(
               Icons.clear,
@@ -152,7 +165,7 @@ class _TransferMoneyState extends State<TransferMoney> {
             ),
           );
         }
-        return GestureDetector(
+        return InkWell(
           onTap: () => onNumberClick(index),
           child: Container(
             margin: const EdgeInsets.all(10.0),

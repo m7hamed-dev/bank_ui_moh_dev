@@ -1,4 +1,5 @@
 import 'package:bank_ui_moh_dev/constants/constants.dart';
+import 'package:bank_ui_moh_dev/style/txt_style.dart';
 import 'package:flutter/material.dart';
 
 class OperationCard extends StatefulWidget {
@@ -20,31 +21,26 @@ class _OperationCardState extends State<OperationCard> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 900),
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeInOut,
       margin: const EdgeInsets.only(right: 10, top: mgDefaultPadding / 2),
       height: 117,
       width: 117,
+      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(widget.isSelected ? 15.0 : 10.0),
-        color: widget.isSelected
-            ? Colors.black.withOpacity(.20)
-            : Colors.black.withOpacity(.05),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black.withOpacity(.06),
-        //     blurRadius: 2.0,
-        //     spreadRadius: 2.0,
-        //     offset: const Offset(0.2, 2.0),
-        //   ),
-        // ],
+        borderRadius: BorderRadius.circular(widget.isSelected ? 10.0 : 5.0),
+        border: Border.all(
+          color: widget.isSelected
+              ? Colors.black.withOpacity(.70)
+              : Colors.black.withOpacity(.10),
+          width: widget.isSelected ? 1.5 : 1.0,
+        ),
       ),
       child: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
-        // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
+            clipBehavior: Clip.antiAlias,
             height: 60.0,
-            // width: 117,
             decoration: BoxDecoration(
                 image: DecorationImage(
               image: AssetImage(
@@ -63,12 +59,13 @@ class _OperationCardState extends State<OperationCard> {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               widget.operation,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: widget.isSelected ? Colors.white : Colors.grey[400],
-                  ),
+              style: TxtStyle.style(),
+              // textAlign: TextAlign.center,
+              // style: Theme.of(context).textTheme.subtitle2!.copyWith(
+              //       fontSize: 16,
+              //       fontWeight: FontWeight.w700,
+              //       color: widget.isSelected ? Colors.white : Colors.grey[400],
+              //     ),
             ),
           ),
         ],
