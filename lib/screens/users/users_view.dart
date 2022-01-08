@@ -1,9 +1,9 @@
-import 'package:bank_ui_moh_dev/constants/constants.dart';
-import 'package:bank_ui_moh_dev/screens/transfer_money.dart';
+import 'package:bank_ui_moh_dev/screens/transfer_money_view.dart';
 import 'package:bank_ui_moh_dev/screens/users/users_controller.dart';
 import 'package:bank_ui_moh_dev/style/txt_style.dart';
 import 'package:bank_ui_moh_dev/tools/push.dart';
 import 'package:bank_ui_moh_dev/widgets/custom_loading.dart';
+import 'package:bank_ui_moh_dev/widgets/shimmer_img.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -45,10 +45,10 @@ class CardUser extends StatelessWidget {
         Push.toPageWithAnimation(
           context,
           TransferMoney(
-            currentBalance: 10,
-            currentCustomerId: 10,
-            currentUserCardNumebr: '12222',
-            senderName: 'me',
+            currentBalance: 10.0,
+            // currentCustomerId: 10,
+            // currentUserCardNumebr: '12222',
+            // senderName: 'me',
           ),
         );
       },
@@ -58,14 +58,18 @@ class CardUser extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const CircleAvatar(
-              radius: 30.0,
-              backgroundImage: NetworkImage(Constant.userImageUrl),
+            // const CircleAvatar(
+            //   radius: 30.0,
+            //   backgroundImage: NetworkImage(Constant.userImageUrl),
+            // ),
+            const CustomCahchedImg(
+              width: 40.0,
+              height: 40.0,
             ),
             const SizedBox(height: 10.0),
             Text(
               user['name'],
-              style: TxtStyle.style(fontSize: 12.0),
+              style: TxtStyle.style(fontSize: 11.0),
             ),
           ],
         ),

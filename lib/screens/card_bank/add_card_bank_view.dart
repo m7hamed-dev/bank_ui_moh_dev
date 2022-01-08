@@ -1,19 +1,18 @@
 import 'package:bank_ui_moh_dev/components/customeDialog/customeDialog.dart';
-import 'package:bank_ui_moh_dev/components/textfield/customeTextField.dart';
+import 'package:bank_ui_moh_dev/components/textfield/input.dart';
+import 'package:bank_ui_moh_dev/database/local_storage.dart';
 import 'package:bank_ui_moh_dev/screens/card_bank/card_bank_controller.dart';
 import 'package:bank_ui_moh_dev/tools/push.dart';
+import 'package:bank_ui_moh_dev/tools/random_id.dart';
+import 'package:bank_ui_moh_dev/widgets/my_btn.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
-import '../home_screen.dart';
+import '../home/home_screen.dart';
 
 class AddCardBank extends StatefulWidget {
-  final String cardNumber;
-  final bool isAddNewCard;
-
   const AddCardBank({
     Key? key,
-    required this.cardNumber,
-    required this.isAddNewCard,
   }) : super(key: key);
   //
   @override
@@ -21,6 +20,7 @@ class AddCardBank extends StatefulWidget {
 }
 
 class _AddCardBankState extends State<AddCardBank> {
+  String wonerName = '';
   String cardHolderName = '';
   String cardNumber = '';
   String cardExpiry = '';
@@ -29,105 +29,122 @@ class _AddCardBankState extends State<AddCardBank> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.isAddNewCard) {
-      print('widget.cardNumber= ${widget.cardNumber}');
-    }
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Account Details"),
         centerTitle: true,
-        actions: [
-          widget.isAddNewCard
-              ? const SizedBox()
-              : IconButton(
-                  onPressed: () async {
-                    try {
-                      print('widget.cardNumber = ${widget.cardNumber}');
-                      await CardBankController().delete(widget.cardNumber);
-                    } catch (e) {
-                      print('ex $e');
-                    }
-                    // Navigator.pop(context);
-                  },
-                  icon: const Icon(Icons.delete),
-                )
-        ],
+        // actions: [
+        //   widget.isAddNewCard
+        //       ? const SizedBox()
+        //       : IconButton(
+        //           onPressed: () async {
+        //             try {
+        //               print('widget.cardNumber = ${widget.cardNumber}');
+        //               await CardBankController().delete(widget.cardNumber);
+        //             } catch (e) {
+        //               print('ex $e');
+        //             }
+        //             // Navigator.pop(context);
+        //           },
+        //           icon: const Icon(Icons.delete),
+        //         )
+        // ],
       ),
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
-            CustomTextField(
+            cardNumber.isNotEmpty
+                ? QrImage(
+                    data: cardNumber,
+                    version: QrVersions.auto,
+                    size: 100.0,
+                  )
+                : const SizedBox(),
+            Input(
+              hintName: "Enter wonerName",
+              onChanged: (value) => wonerName = value,
+              keyboardTypeNumber: false,
+            ),
+            Input(
               hintName: "Enter cardholder name",
               onChanged: (value) => {cardHolderName = value},
               keyboardTypeNumber: false,
             ),
-            CustomTextField(
-              hintName:
-                  widget.isAddNewCard ? 'Enter card number' : widget.cardNumber,
-              onChanged: (value) => {cardNumber = value},
+            Input(
+              hintName: 'Enter card number',
+              onChanged: (value) {
+                cardNumber = value;
+                setState(() {});
+              },
               keyboardTypeNumber: false,
             ),
-            CustomTextField(
+            Input(
               hintName: "Enter card expiry date",
               onChanged: (value) => {cardExpiry = value},
               keyboardTypeNumber: false,
             ),
-            CustomTextField(
+            Input(
               hintName: "Enter current amount",
               onChanged: (value) => {currentBalance = value},
               keyboardTypeNumber: true,
             ),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () async {
-                  Map<String, dynamic> map = {
-                    'name': cardHolderName,
-                    'number': cardNumber,
-                    'expireDate': cardExpiry,
-                    'amount': currentBalance
-                  };
-                  if (widget.isAddNewCard) {
-                    print('create');
-                    await CardBankController().create(map);
-                  } else {
-                    print('update');
-                    await CardBankController().update(widget.cardNumber, map);
-                  }
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return CustomDialog(
-                          onPressed: () {
-                            Push.toPage(context, const HomeScreen());
-                          },
-                          title: "Success",
-                          isSuccess: true,
-                          description: "Thanking for adding your details",
-                          buttonText: "Ok",
-                          addIcon: const Icon(
-                            Icons.check,
-                            color: Colors.white,
-                            size: 50,
-                          ),
-                        );
-                      });
-                  // }
-                },
-                child: const Padding(
-                  padding: EdgeInsets.all(18.0),
-                  child: Text(
-                    "Submit",
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
+            MyBtn(
+              onPressed: () async {
+                Map<String, dynamic> map = {
+                  'id': RandomID.getRandom,
+                  'name': cardHolderName,
+                  'numberCard': cardNumber,
+                  'expireDate': cardExpiry,
+                  'currentAmount': currentBalance,
+                  'wonerName': wonerName
+                };
+                await CardBankController().create(map);
+                LocalStorage.isAddCardBank(true);
+                LocalStorage.saveInfoCardBank(map);
+                // else {
+                //   debugPrint('update');
+                //   await CardBankController().update(widget.cardNumber, map);
+                // }
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return CustomDialog(
+                        onPressed: () {
+                          Push.toPage(context, const HomeScreen());
+                        },
+                        title: "Success",
+                        isSuccess: true,
+                        description: "Thanking for adding your details",
+                        buttonText: "Ok",
+                        addIcon: const Icon(
+                          Icons.check,
+                          color: Colors.white,
+                          size: 50,
+                        ),
+                      );
+                    });
+                // }
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(18.0),
+                child: Text(
+                  "Submit",
+                  style: TextStyle(
+                    fontSize: 18,
                   ),
                 ),
               ),
             ),
-            Spacer(),
-          ],
+          ].map((e) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: 20.0,
+              ),
+              child: e,
+            );
+          }).toList(),
         ),
       ),
     );

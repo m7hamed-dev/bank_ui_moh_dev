@@ -29,9 +29,7 @@ class _UserATMCardState extends State<UserATMCard> {
       decoration: BoxDecoration(
           color: Colors.red,
           gradient: widget.gradientColor,
-          borderRadius: BorderRadius.all(
-            Radius.circular(28),
-          )),
+          borderRadius: BorderRadius.all(Radius.circular(28))),
       child: Stack(
         children: [
           Positioned(

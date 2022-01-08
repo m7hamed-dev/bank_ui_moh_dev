@@ -44,10 +44,7 @@ class _ListViewAtmCardState extends State<ListViewAtmCard> {
                 onTap: () {
                   Push.toPageWithAnimation(
                     context,
-                    AddCardBank(
-                      isAddNewCard: false,
-                      cardNumber: cards[index].get('number'),
-                    ),
+                    AddCardBank(),
                   );
                 },
                 child: UserATMCard(

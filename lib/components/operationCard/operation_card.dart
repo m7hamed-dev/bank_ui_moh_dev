@@ -1,5 +1,6 @@
 import 'package:bank_ui_moh_dev/constants/constants.dart';
 import 'package:bank_ui_moh_dev/style/txt_style.dart';
+import 'package:bank_ui_moh_dev/tools/delay_animation.dart';
 import 'package:flutter/material.dart';
 
 class OperationCard extends StatefulWidget {

@@ -1,14 +1,20 @@
 import 'package:bank_ui_moh_dev/components/operationCard/operation_card.dart';
 import 'package:bank_ui_moh_dev/constants/constants.dart';
-import 'package:bank_ui_moh_dev/screens/home_screen.dart';
+import 'package:bank_ui_moh_dev/database/local_storage.dart';
+import 'package:bank_ui_moh_dev/screens/card_bank/bank_card_model.dart';
+import 'package:bank_ui_moh_dev/screens/home/home_screen.dart';
 import 'package:bank_ui_moh_dev/screens/operation/operation_view.dart';
+import 'package:bank_ui_moh_dev/screens/qr/send_money_via_qr_scnner_view.dart';
 import 'package:bank_ui_moh_dev/screens/users/users_view.dart';
 import 'package:bank_ui_moh_dev/style/txt_style.dart';
+import 'package:bank_ui_moh_dev/tools/delay_animation.dart';
+import 'package:bank_ui_moh_dev/tools/push.dart';
 import 'package:bank_ui_moh_dev/widgets/header_account.dart';
 import 'package:flutter/material.dart';
 
 class HomeContentView extends StatefulWidget {
   const HomeContentView({Key? key}) : super(key: key);
+  // final BanckCardModel banckCardModel;
 
   @override
   State<HomeContentView> createState() => _HomeContentViewState();
@@ -53,28 +59,36 @@ class _HomeContentViewState extends State<HomeContentView> {
     getGreeting();
   }
 
+  DelayAnimation _title(String data, int delay) {
+    return DelayAnimation(
+      slidingCurve: Curves.ease,
+      duration: Duration(milliseconds: 500 + delay),
+      child: Text(
+        data,
+        style: TxtStyle.style(fontSize: 20.0),
+      ),
+    );
+  }
+
+  //  LocalStorage.g
+
+  String _current = '';
+
   @override
   Widget build(BuildContext context) {
     return ListView(
-      // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         HeaderAccount(greeting: greeting),
         const SizedBox(height: 40.0),
         const CurrentAmount(),
         const SizedBox(height: 50.0),
-        Text(
-          'Your Connections',
-          style: TxtStyle.style(fontSize: 20.0),
-        ),
+        _title('Your Connections', 200),
         const SizedBox(
           height: 100,
           child: UsersView(),
         ),
         const SizedBox(height: 20.0),
-        Text(
-          'Transaction Histories',
-          style: TxtStyle.style(fontSize: 20.0),
-        ),
+        _title('Transaction Histories', 500),
         const SizedBox(height: 20.0),
         const SizedBox(
           height: 100,
@@ -97,10 +111,13 @@ class _HomeContentViewState extends State<HomeContentView> {
                   .subtitle2!
                   .copyWith(fontSize: 18, fontWeight: FontWeight.w700),
             ),
+
             /// dots
             Row(
               children: map<Widget>(datas, (index, selected) {
-                return Container(
+                return AnimatedContainer(
+                  curve: Curves.bounceInOut,
+                  duration: const Duration(milliseconds: 800),
                   margin: const EdgeInsets.only(right: 3),
                   height: 9,
                   width: 9,

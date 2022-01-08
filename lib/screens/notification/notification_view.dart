@@ -1,8 +1,6 @@
 import 'dart:math';
-
-import 'package:bank_ui_moh_dev/constants/constants.dart';
-import 'package:bank_ui_moh_dev/screens/home/app_bar.dart';
 import 'package:bank_ui_moh_dev/style/txt_style.dart';
+import 'package:bank_ui_moh_dev/tools/delay_animation.dart';
 import 'package:flutter/material.dart';
 
 class NotificationView extends StatelessWidget {
@@ -25,25 +23,28 @@ class NotificationView extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: List.generate(20, (index) {
-                    return Container(
-                      margin: const EdgeInsets.all(5.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: ListTile(
-                        leading: _leading(),
-                        title: Text(
-                          'Notification $index',
-                          style: TxtStyle.style(
-                            fontSize: 15.0,
-                            color: Colors.grey.shade700,
-                          ),
+                    return DelayAnimation(
+                      duration: Duration(milliseconds: 500 + index * 10),
+                      child: Container(
+                        margin: const EdgeInsets.all(5.0),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
-                        subtitle: Text(
-                          'inf',
-                          style: TxtStyle.style(
-                            fontSize: 15.0,
+                        child: ListTile(
+                          leading: _leading(),
+                          title: Text(
+                            'Notification $index',
+                            style: TxtStyle.style(
+                              fontSize: 15.0,
+                              color: Colors.grey.shade700,
+                            ),
+                          ),
+                          subtitle: Text(
+                            'inf',
+                            style: TxtStyle.style(
+                              fontSize: 15.0,
+                            ),
                           ),
                         ),
                       ),

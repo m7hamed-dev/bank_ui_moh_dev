@@ -2,9 +2,10 @@ import 'package:bank_ui_moh_dev/components/customeDialog/customeDialog.dart';
 import 'package:bank_ui_moh_dev/constants/constants.dart';
 import 'package:bank_ui_moh_dev/database/databaseHelper.dart';
 import 'package:bank_ui_moh_dev/model/transectionDetails.dart';
+import 'package:bank_ui_moh_dev/tools/push.dart';
 import 'package:flutter/material.dart';
 
-import 'home_screen.dart';
+import 'home/home_screen.dart';
 
 class Payment extends StatefulWidget {
   final String customerAvatar,
@@ -41,11 +42,11 @@ class _PaymentState extends State<Payment> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: ListView(
         children: [
-          Container(
+          SizedBox(
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -69,7 +70,7 @@ class _PaymentState extends State<Payment> {
               ],
             ),
           ),
-          SizedBox(height: 100),
+          const SizedBox(height: 100),
           Column(
             children: [
               Form(
@@ -82,7 +83,7 @@ class _PaymentState extends State<Payment> {
                   },
                   validator: (check) => "please enter amount",
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Amount",
                     prefixText: "₹ ",
                     hintStyle: TextStyle(
@@ -93,14 +94,14 @@ class _PaymentState extends State<Payment> {
               )),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           Flexible(
             child: Container(
               width: double.infinity,
               height: 250,
               decoration: BoxDecoration(
                   color: Colors.grey[100],
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(25),
                     topLeft: Radius.circular(25),
                   )),
@@ -115,7 +116,7 @@ class _PaymentState extends State<Payment> {
                         style: Theme.of(context).textTheme.subtitle1!.copyWith(
                               fontWeight: FontWeight.w600,
                             )),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
@@ -128,12 +129,12 @@ class _PaymentState extends State<Payment> {
                             ),
                       ),
                     ),
-                    SizedBox(height: 40),
-                    Container(
+                    const SizedBox(height: 40),
+                    SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () async {
-                          if (transferAmount == null) {
+                          if (transferAmount == 0.0) {
                             showDialog(
                                 context: context,
                                 builder: (context) {
@@ -145,7 +146,7 @@ class _PaymentState extends State<Payment> {
                                     description:
                                         "Please make sure that you added amount in the field",
                                     buttonText: "Cancel",
-                                    addIcon: Icon(
+                                    addIcon: const Icon(
                                       Icons.clear,
                                       color: Colors.white,
                                       size: 50,
@@ -166,7 +167,7 @@ class _PaymentState extends State<Payment> {
                                     description:
                                         "Please make sure that your account have sufficient balance",
                                     buttonText: "Cancel",
-                                    addIcon: Icon(
+                                    addIcon: const Icon(
                                       Icons.clear,
                                       color: Colors.white,
                                       size: 50,
@@ -206,19 +207,17 @@ class _PaymentState extends State<Payment> {
                                 builder: (context) {
                                   return CustomDialog(
                                     onPressed: () {
-                                      Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      HomeScreen()))
-                                          .then((value) => {});
+                                      Push.toPageWithAnimation(
+                                        context,
+                                        const HomeScreen(),
+                                      );
                                     },
                                     title: "Paid Successfully",
                                     isSuccess: true,
                                     description:
                                         "Thanking for using our service. Have a nice day.",
                                     buttonText: "Home",
-                                    addIcon: Icon(
+                                    addIcon: const Icon(
                                       Icons.check,
                                       color: Colors.white,
                                       size: 50,

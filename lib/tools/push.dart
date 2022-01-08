@@ -8,7 +8,8 @@ class Push {
     Navigator.push(context, _route);
   }
 
-  static void toPageWithAnimation(BuildContext context, Widget page) {
+  static void toPageWithAnimation(BuildContext context, Widget page,
+      {Alignment? alignment}) {
     var _route = PageRouteBuilder(
       transitionDuration: const Duration(milliseconds: 100),
       transitionsBuilder: (context, animation, animationTime, child) {
@@ -19,7 +20,7 @@ class Push {
         //
         return ScaleTransition(
           scale: animation,
-          alignment: Alignment.center,
+          alignment: alignment ?? Alignment.center,
           child: child,
         );
       },

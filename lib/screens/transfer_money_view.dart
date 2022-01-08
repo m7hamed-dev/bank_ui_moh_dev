@@ -1,20 +1,21 @@
 import 'package:bank_ui_moh_dev/screens/account/bio_metric_view.dart';
 import 'package:bank_ui_moh_dev/style/txt_style.dart';
+import 'package:bank_ui_moh_dev/tools/delay_animation.dart';
 import 'package:bank_ui_moh_dev/tools/push.dart';
 import 'package:bank_ui_moh_dev/widgets/btn.dart';
 import 'package:flutter/material.dart';
 
 class TransferMoney extends StatefulWidget {
   final double currentBalance;
-  final int currentCustomerId;
-  final String currentUserCardNumebr, senderName;
+  // final int currentCustomerId;
+  // final String currentUserCardNumebr, senderName;
 
   const TransferMoney({
     Key? key,
     required this.currentBalance,
-    required this.currentCustomerId,
-    required this.currentUserCardNumebr,
-    required this.senderName,
+    // required this.currentCustomerId,
+    // required this.currentUserCardNumebr,
+    // required this.senderName,
   }) : super(key: key);
 
   @override
@@ -57,7 +58,11 @@ class _TransferMoneyState extends State<TransferMoney> {
     _isConfirm = !_isConfirm;
     setState(() {});
     if (_isConfirm) {
-      Push.toPageWithAnimation(context, const BioMetricView());
+      Push.toPageWithAnimation(
+          context,
+          const BioMetricView(
+            amountTransfer: '\$ 1200.0',
+          ));
     }
   }
 
@@ -84,9 +89,12 @@ class _TransferMoneyState extends State<TransferMoney> {
                   "Current Balance",
                   style: TxtStyle.style(fontSize: 14.0, color: Colors.grey),
                 ),
-                Text(
-                  '\$ 2000.0',
-                  style: TxtStyle.style(fontSize: 30.0, color: Colors.green),
+                DelayAnimation(
+                  duration: const Duration(milliseconds: 600),
+                  child: Text(
+                    '\$ 2000.0',
+                    style: TxtStyle.style(fontSize: 30.0, color: Colors.green),
+                  ),
                 ),
                 const SizedBox(height: 40.0),
                 Center(
@@ -122,12 +130,16 @@ class _TransferMoneyState extends State<TransferMoney> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: MyButton(
-          color: _isConfirm ? Colors.green : Colors.grey,
-          title: _isConfirm ? 'confirmed' : 'confirm',
-          onPressed: cofirmBtnClick,
+      bottomNavigationBar: DelayAnimation(
+        duration: const Duration(milliseconds: 600),
+        slidingCurve: Curves.bounceInOut,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: MyButton(
+            color: _isConfirm ? Colors.green : Colors.grey,
+            title: _isConfirm ? 'confirmed' : 'confirm',
+            onPressed: cofirmBtnClick,
+          ),
         ),
       ),
     );

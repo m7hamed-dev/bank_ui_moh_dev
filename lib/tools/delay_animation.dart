@@ -6,13 +6,15 @@ class DelayAnimation extends StatelessWidget {
     Key? key,
     required this.child,
     required this.duration,
+    this.slidingCurve,
   }) : super(key: key);
   final Widget child;
   final Duration duration;
+  final Curve? slidingCurve;
   @override
   Widget build(BuildContext context) {
     return DelayedDisplay(
-      slidingCurve: Curves.easeInOut,
+      slidingCurve: slidingCurve ?? Curves.easeInOutCirc,
       delay: duration,
       child: child,
     );

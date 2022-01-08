@@ -76,14 +76,17 @@ const List<String> operationIcon = [
   "assets/images/crediet.png",
 ];
 
-
 class Constant {
   // collections
   static const cardBankCollection = 'cardBankCollection';
   static const usersCollection = 'usersCollection';
   static const operationsCollection = 'operationsCollection';
+  static const sendMoneyCollection = 'sendMoneyCollection';
 
   ///
   static const userImageUrl =
       'https://www.niemanlab.org/images/Greg-Emerson-edit-2.jpg';
+
+  /// app bar
+  static const double fontSizeAppBar = 13.0;
 }
